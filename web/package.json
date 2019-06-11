@@ -1,0 +1,72 @@
+{
+  "name": "rocketplate",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "precommit": "lint-staged",
+    "prettier": "prettier --write  'pages/**/*.js' 'components/**/*.js' next.config.js 'lib/**/*.js'",
+    "lint": "eslint --ignore-path ../.gitignore '**/*.js'",
+    "test": "jest --forceExit"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "axios-retry": "^3.1.2",
+    "cookie": "^0.4.0",
+    "dotenv": "^8.0.0",
+    "lodash": "^4.17.11",
+    "next": "^8.1.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-react": "^7.13.0",
+    "husky": "^2.3.0",
+    "jest": "^24.8.0",
+    "lint-staged": "^8.1.7",
+    "prettier": "^1.17.1"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "env": {
+      "node": true,
+      "es6": true,
+      "jest": true,
+      "browser": true
+    },
+    "rules": {
+      "no-console": 0
+    }
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "lint-staged": {
+    "linters": {
+      "src/**/*.js": [
+        "npm run prettier -- ",
+        "npm run lint -- ",
+        "git add"
+      ]
+    }
+  },
+  "jest": {
+    "watchPathIgnorePatterns": [
+      "tmp",
+      "json"
+    ],
+    "forceExit": true
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-merge": "npm ci"
+    }
+  }
+}

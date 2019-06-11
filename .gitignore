@@ -1,0 +1,21 @@
+*.log
+tmp
+.env
+.DS_Store
+
+# terraform
+.terraform
+
+# javascript
+.next
+coverage
+node_modules
+
+# ctags
+tags
+
+# gcp / terraform
+google-cloud-service-account.json
+production.tfvars
+beta.tfvars
+create-gcp-sa.sh

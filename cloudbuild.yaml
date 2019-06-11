@@ -1,0 +1,12 @@
+steps:
+  - name: 'gcr.io/${PROJECT_ID}/terraform'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        [[ -z $$SHORT_HASH ]] && export SHORT_HASH=${_SHORT_HASH}
+        STAGE=${_STAGE} TF_BUCKET=${_TF_BUCKET} ./deploy.bash
+
+substitutions:
+  _STAGE: production
+  _BUCKET: rocketplate-terraform

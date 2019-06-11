@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rambler
+spec:
+  template:
+    metadata:
+      name: rambler
+      labels:
+        app: rambler
+    spec:
+      imagePullSecrets:
+      - name: docker
+      containers:
+      - name: rambler
+        image: gcr.io/project/rambler:var.SHORT_HASH
+        command: ["./apply-all.bash"]
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
+        env:
+          - name: RAMBLER_PROTOCOL
+            value: tcp
+          - name: RAMBLER_DRIVER
+            value: postgresql
+          - name: RAMBLER_USER
+            value: postgres
+          - name: RAMBLER_PASSWORD
+            value: password
+          - name: RAMBLER_HOST
+            value: var.POSTGRES_HOST
+          - name: RAMBLER_PORT
+            value: "5432"
+          - name: RAMBLER_DATABASE
+            value: rocketplate
+          - name: RAMBLER_TABLE
+            value: migrations
+          - name: RAMBLER_DIRECTORY
+            value: migrations

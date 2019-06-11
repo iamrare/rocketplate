@@ -1,0 +1,26 @@
+version: '3'
+services:
+  rambler:
+    build:
+      context: ./rambler
+    depends_on:
+      - postgres
+    environment:
+      RAMBLER_DRIVER: postgresql
+      RAMBLER_PROTOCOL: tcp
+      RAMBLER_USER: postgres
+      RAMBLER_PASSWORD: password
+      RAMBLER_HOST: postgres
+      RAMBLER_PORT: 5432
+      RAMBLER_DATABASE: rocketplate
+      RAMBLER_DIRECTORY: migrations
+      RAMBLER_TABLE: migrations
+
+  postgres:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rocketplate
+    ports:
+      - "5432:5432"
