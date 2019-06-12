@@ -7,7 +7,7 @@ if [[ ( -z "$STAGE" ) || ( -z "$TF_BUCKET" ) ]]; then
   exit 1
 fi
 
-[[ ! -f ./$STAGE.tfvars ]] && ./tfvars download $STAGE
+[[ ! -f ./$STAGE.tfvars ]] && ./tfvars.bash download
 
 if [[ ! -f ./$STAGE.tfvars ]]; then
   echo 'Missing tfvars for stage, aborting.'
@@ -25,7 +25,7 @@ gcloud auth configure-docker
 
 if [[ $1 == 'remote' ]]; then
 
-  [[ -f ./$STAGE.tfvars ]] && ./tfvars upload $STAGE
+  [[ -f ./$STAGE.tfvars ]] && ./tfvars.bash upload
 
   gcloud builds submit \
     --config cloudbuild.yaml \

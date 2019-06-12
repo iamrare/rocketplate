@@ -11,7 +11,6 @@ To get started, create a Google Cloud project and get authenticated:
 
 ```
 gcloud auth login
-gcloud container clusters get-credentials my-cluster --zone=us-west2-b
 gcloud auth configure-docker
 ```
 
@@ -21,7 +20,7 @@ Now, you need to wire up Terraform and GCS. You can use the `./bootstrap.bash` t
 ./bootstrap.bash TERRAFORM_BUCKET_NAME
 ```
 
-which will create a GCS bucket for terraform and to authenticate Google Cloud Build.
+which will create a GCS bucket for terraform and authenticate Google Cloud Build.
 
 To configure your new deployment, copy the example `tfvars`:
 
@@ -42,7 +41,9 @@ You now are admin-ing your own GKE cluster 😎
 
 ## DNS
 
-To get your domain name pointing at this cluster, point the domain name's nameservers at the Google Managed Zone's DNS servers. You can get these by going to the Google Cloud UI > Network Services > Cloud DNS > [Your Managed Zone] > Registrar Setup (top right corner).
+To get your domain name pointing at this cluster, point the domain name's nameservers at the Google Managed Zone's DNS servers.
+
+You can get these by going to the Google Cloud UI > Network Services > Cloud DNS > [Your Managed Zone] > Registrar Setup (top right corner).
 
 
 ## Persisting secrets
@@ -88,7 +89,7 @@ The database in this project is [Postgres](https://www.postgresql.org/), and the
 
 Rambler has it's own folder, in `./rambler/`
 
-Unfortunately, we're waiting on [this PR](https://github.com/terraform-providers/terraform-provider-kubernetes/pull/411) to land to finish up the Google Cloud side of things.
+Unfortunately, we're waiting on [this PR](https://github.com/terraform-providers/terraform-provider-kubernetes/pull/411) to land to finish up the Google Cloud side of rambler.
 
 
 ## Development
@@ -154,6 +155,13 @@ terraform destroy -var-file=production.tfvars
 ```
 
 And you should be good to go.
+
+
+## Troubleshooting
+
+### Error waiting for Create Service Networking Connection
+
+Try running [this command](https://github.com/terraform-providers/terraform-provider-google/issues/3294#issuecomment-476715149).
 
 
 ## Todo

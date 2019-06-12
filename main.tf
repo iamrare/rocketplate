@@ -1,4 +1,7 @@
-terraform { backend "gcs" {} }
+terraform {
+  backend "gcs" {
+  }
+}
 
 # ---
 
@@ -56,6 +59,24 @@ module "gke" {
   CLUSTER_NAME = var.CLUSTER_NAME
 }
 
+# Authenticate the k8s cluster the first time it's created.
+#
+# You can't define module.depends_on, so there might be a race condition for
+# the first deploy, as the modules try to deploy themselves without k8s
+# credentials
+resource "null_resource" "gke_credentials" {
+  triggers = {
+    GKE = module.gke.k8s_endpoint
+  }
+
+  provisioner "local-exec" {
+    command = <<EOF
+      gcloud container clusters get-credentials ${var.CLUSTER_NAME} \
+        --zone=${var.GOOGLE_ZONE}
+    EOF
+  }
+}
+
 provider "kubernetes" {
   version = "~> 1.7"
 
@@ -68,6 +89,8 @@ provider "kubernetes" {
 }
 
 resource "kubernetes_service_account" "tiller" {
+  depends_on = [null_resource.gke_credentials]
+
   metadata {
     name = "terraform-tiller"
     namespace = "kube-system"
@@ -77,6 +100,8 @@ resource "kubernetes_service_account" "tiller" {
 }
 
 resource "kubernetes_cluster_role_binding" "tiller" {
+  depends_on = [null_resource.gke_credentials]
+
   metadata {
     name = "terraform-tiller"
   }

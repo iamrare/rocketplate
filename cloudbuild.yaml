@@ -1,5 +1,5 @@
 steps:
-  - name: 'gcr.io/${PROJECT_ID}/terraform'
+  - name: 'gcr.io/${PROJECT_ID}/rocketplate'
     entrypoint: 'bash'
     args:
       - '-c'
@@ -9,4 +9,4 @@ steps:
 
 substitutions:
   _STAGE: production
-  _BUCKET: rocketplate-terraform
+  _TF_BUCKET: rocketplate-terraform

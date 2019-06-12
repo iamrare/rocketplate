@@ -5,6 +5,7 @@ variable "LETS_ENCRYPT_EMAIL" { type = "string" }
 variable "LETS_ENCRYPT_URL" { type = "string" }
 
 resource "google_compute_address" "ip" {
+  provider = google
   name = "${var.STATIC_IP_NAME}"
 }
 
