@@ -14,13 +14,13 @@ gcloud auth login
 gcloud auth configure-docker
 ```
 
-Now, you need to wire up Terraform and GCS. You can use the `./bootstrap.bash` tool for this:
+Now, we need to wire up Terraform and GCS. You can use the `./bootstrap.bash` tool to do this:
 
 ```
 ./bootstrap.bash TERRAFORM_BUCKET_NAME
 ```
 
-which will create a GCS bucket for terraform and authenticate Google Cloud Build.
+which will create a GCS bucket for Terraform and authenticate Google Cloud Build.
 
 To configure your new deployment, copy the example `tfvars`:
 
