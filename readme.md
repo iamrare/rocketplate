@@ -10,7 +10,7 @@ Rocketplate for your next adventure 🚀
 To get started, create a Google Cloud project and get authenticated:
 
 ```
-gcloud auth login
+gcloud auth application-default login
 gcloud auth configure-docker
 ```
 
@@ -33,6 +33,7 @@ and change anything that needs to be changed.
 All that's left is to deploy!
 
 ```
+# You might need to run this twice
 STAGE=production TF_BUCKET=rocketplate-terraform ./deploy.bash
 ```
 
@@ -166,6 +167,7 @@ Try running [this command](https://github.com/terraform-providers/terraform-prov
 
 ## Todo
 
+ - Configure size of preemptible and normal k8s clusters
  - Deploy migrations to kubernetes
  - Run integration tests in CI
  - Add Prometheus and Grafana

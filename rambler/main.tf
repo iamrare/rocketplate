@@ -1,30 +1,12 @@
 variable "SHORT_HASH" { type = "string" }
 variable "DOCKER_PREFIX" { type = "string" }
-variable "PG_WRITE_URL" { type = "string" }
-variable "PG_READ_URL" { type = "string" }
+variable "POSTGRES_USERNAME" { type = "string" }
+variable "POSTGRES_PASSWORD" { type = "string" }
+variable "POSTGRES_HOST" { type = "string" }
+variable "POSTGRES_DB_NAME" { type = "string" }
 
 locals {
-  docker_image = "${var.DOCKER_PREFIX}api:${var.SHORT_HASH}"
-}
-
-resource "kubernetes_service" "api" {
-  metadata {
-    name = "api"
-    labels = {
-      app = "api"
-    }
-  }
-
-  spec {
-    port {
-      port = 3000
-      target_port = 3000
-    }
-
-    selector =  {
-      app = "api"
-    }
-  }
+  docker_image = "${var.DOCKER_PREFIX}rambler:${var.SHORT_HASH}"
 }
 
 resource "null_resource" "docker" {
@@ -33,7 +15,7 @@ resource "null_resource" "docker" {
   }
 
   provisioner "local-exec" {
-    working_dir = "./api"
+    working_dir = "./rambler"
     command = <<EOF
       docker build -t ${local.docker_image} .;
       docker push ${local.docker_image};
@@ -41,60 +23,60 @@ resource "null_resource" "docker" {
   }
 }
 
-resource "kubernetes_deployment" "api" {
-  depends_on = [null_resource.docker]
-
-  metadata {
-    name = "api"
+resource "null_resource" "k8s" {
+  triggers = {
+    docker_image = "${null_resource.docker.id}"
   }
 
-  spec {
-    replicas = 1
-    revision_history_limit = 2
-    strategy {
-      type = "RollingUpdate"
-      rolling_update {
-        max_unavailable = 1
-        max_surge = 3
-      }
-    }
-
-    selector {
-      match_labels = {
-        app = "api"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          app = "api"
-        }
-      }
-
-      spec {
-        container {
-          name = "api"
-          image = "${local.docker_image}"
-          image_pull_policy = "Always"
-          resources {
-            limits {
-              cpu = "500m"
-              memory = "500Mi"
-            }
-          }
-
-          env {
-            name = "RAMBLER_USER"
-            value = var.POSTGRES_USERNAME
-          }
-
-          env {
-            name = "RAMBLER_PASSWORD"
-            value = var.POSTGRES_PASSWORD
-          }
-        }
-      }
-    }
+  provisioner "local-exec" {
+    working_dir = "./rambler"
+    command = <<EOF
+      k8s_config=$(cat << K8S
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rambler
+spec:
+  template:
+    metadata:
+      name: rambler
+      labels:
+        app: rambler
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: rambler
+        image: ${local.docker_image}
+        command: ["./apply-all.bash"]
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
+        env:
+          - name: RAMBLER_PROTOCOL
+            value: tcp
+          - name: RAMBLER_DRIVER
+            value: postgresql
+          - name: RAMBLER_USER
+            value: ${var.POSTGRES_USERNAME}
+          - name: RAMBLER_PASSWORD
+            value: ${var.POSTGRES_PASSWORD}
+          - name: RAMBLER_HOST
+            value: "${var.POSTGRES_HOST}"
+          - name: RAMBLER_PORT
+            value: "5432"
+          - name: RAMBLER_DATABASE
+            value: ${var.POSTGRES_DB_NAME}
+          - name: RAMBLER_TABLE
+            value: migrations
+          - name: RAMBLER_DIRECTORY
+            value: migrations
+K8S)
+      kubectl delete jobs/rambler
+      echo "$k8s_config" | kubectl apply -f -
+    EOF
   }
 }

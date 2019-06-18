@@ -169,6 +169,17 @@ module "postgres" {
   K8S_CLUSTER_NETWORK = module.gke.k8s_cluster_network
 }
 
+module "rambler" {
+  source = "./rambler"
+
+  SHORT_HASH = data.external.SHORT_HASH.result.SHORT_HASH
+  DOCKER_PREFIX = var.DOCKER_PREFIX
+  POSTGRES_USERNAME = var.POSTGRES_USERNAME
+  POSTGRES_PASSWORD = var.POSTGRES_PASSWORD
+  POSTGRES_HOST = module.postgres.instance_ip_address
+  POSTGRES_DB_NAME = var.POSTGRES_DB_NAME
+}
+
 module "api" {
   source = "./api"
 

@@ -24,6 +24,12 @@ if [[ ( -z "$project_id" ) && ( -z "$project_number" ) ]]; then
   exit 1
 fi
 
+gcloud services enable cloudbuild.googleapis.com
+gcloud services enable dns.googleapis.com
+gcloud services enable servicenetworking.googleapis.com
+gcloud services enable cloudresourcemanager.googleapis.com
+gcloud services enable sqladmin.googleapis.com
+
 cloudbuild_service_account=$project_number@cloudbuild.gserviceaccount.com
 
 gcloud projects add-iam-policy-binding $project_id \

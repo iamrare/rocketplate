@@ -17,6 +17,8 @@ fi
 CLUSTER_NAME=$(cat $STAGE.tfvars | grep CLUSTER_NAME | cut -d '"' -f2)
 CLUSTER_ZONE=$(cat $STAGE.tfvars | grep GOOGLE_ZONE | cut -d '"' -f2)
 echo "Deploying:"
+echo "  $STAGE"
+echo "  $TF_BUCKET"
 echo "  $CLUSTER_NAME"
 echo "  $CLUSTER_ZONE"
 
