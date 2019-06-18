@@ -76,5 +76,5 @@ resource "google_sql_database" "db" {
 }
 
 output "instance_ip_address" {
-  value = google_compute_global_address.private_ip_address.address
+  value = google_sql_database_instance.master.private_ip_address
 }
