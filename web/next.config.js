@@ -1,3 +1,5 @@
+require('dotenv-safe').config();
+
 const fs = require('fs');
 const path = require('path');
 

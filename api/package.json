@@ -1,26 +1,33 @@
 {
   "scripts": {
-    "test": "env $([ -f .env.test ] && cat .env.test | grep -v ^# | xargs) jest --detectOpenHandles --no-cache",
-    "dev": "env $([ -f .env ] && cat .env | grep -v ^# | xargs) nodemon --max-old-space-size=4096 src/index.js",
-    "start": "node --max-old-space-size=4096 src/index.js",
+    "test": "jest",
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
     "prettier": "prettier --write 'src/**/*.js'",
     "lint": "eslint 'src/**/*.js'"
   },
   "dependencies": {
     "@sqorn/pg": "0.0.45",
+    "axios": "^0.19.0",
+    "bcrypt": "^3.0.6",
     "bluebird": "^3.5.5",
+    "dotenv-safe": "^6.1.0",
     "elasticsearch": "^16.0.0",
     "fs-router": "^0.4.3",
     "lodash": "^4.17.11",
     "micro": "^9.3.4",
     "micro-compose": "0.0.3",
     "micro-compress": "^1.0.0",
-    "micro-visualize": "^3.0.1",
+    "micro-cors": "^0.1.1",
+    "micro-morgan": "^0.1.0",
+    "micro-open-api": "0.0.3",
     "pg": "^7.11.0",
     "pg-native": "^3.0.0",
+    "randomstring": "^1.1.5",
     "redis": "^2.8.0"
   },
   "devDependencies": {
+    "axios-logger": "^1.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "husky": "^2.3.0",
@@ -38,6 +45,9 @@
     },
     "rules": {
       "no-console": 0
+    },
+    "globals": {
+      "testAxios": 0
     }
   },
   "prettier": {
@@ -57,7 +67,11 @@
       "tmp",
       "json"
     ],
-    "forceExit": true
+    "forceExit": true,
+    "setupFiles": [
+      "./test-setup.js"
+    ],
+    "globalSetup": "./test-global-setup.js"
   },
   "husky": {
     "hooks": {

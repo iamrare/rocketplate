@@ -1,3 +1,5 @@
+require('dotenv-safe').config();
+
 const _ = require('lodash/fp');
 const micro = require('micro');
 const fsRouter = require('fs-router');
