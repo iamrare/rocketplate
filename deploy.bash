@@ -39,6 +39,10 @@ else
     --backend-config=bucket=$TF_BUCKET \
     --backend-config=prefix=$TF_STATE_PREFIX$STAGE
 
-  terraform apply -auto-approve -var-file=$STAGE.tfvars
-
+  # Only automatically deploy certain modules, so we don't inadvertantly
+  # make any destructive changes
+  terraform apply -auto-approve -var-file=$STAGE.tfvars \
+    -target=module.rambler \
+    -target=module.api \
+    -target=module.web
 fi

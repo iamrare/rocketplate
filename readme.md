@@ -33,8 +33,11 @@ and change anything that needs to be changed.
 All that's left is to deploy!
 
 ```
+# Replace TERRAFORM_BUCKET_NAME
+terraform init --backend-config=bucket=TERRAFORM_BUCKET_NAME --backend-config=prefix=tfstate/production
+
 # You might need to run this twice
-STAGE=production TF_BUCKET=rocketplate-terraform ./deploy.bash
+terraform apply -var-file=production.tfvars
 ```
 
 You now are admin-ing your own GKE cluster 😎
