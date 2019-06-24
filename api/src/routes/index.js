@@ -1,1 +1,0 @@
-exports.GET = () => ({ ok: true });
