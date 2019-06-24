@@ -23,6 +23,7 @@
     "micro-open-api": "0.0.3",
     "pg": "^7.11.0",
     "pg-native": "^3.0.0",
+    "prom-client": "^11.5.2",
     "randomstring": "^1.1.5",
     "redis": "^2.8.0"
   },

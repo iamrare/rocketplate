@@ -24,3 +24,9 @@ services:
       POSTGRES_DB: rocketplate
     ports:
       - "5432:5432"
+
+  prometheus:
+    build:
+      context: ./prometheus
+    ports:
+      - "9090:9090"

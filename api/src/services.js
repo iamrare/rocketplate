@@ -1,6 +1,7 @@
 const pg = require('pg').native;
 const bluebird = require('bluebird');
 const sqornPg = require('@sqorn/pg');
+const prom = require('prom-client');
 
 // Postgres
 bluebird.config({ longStackTraces: true });
@@ -33,3 +34,9 @@ exports.pgRead = pgRead;
 
 exports.rsq = sqornPg({ pg, pool: pgRead });
 exports.wsq = sqornPg({ pg, pool: pgWrite });
+
+// Prometheus
+
+prom.collectDefaultMetrics({ prefix: 'api_' });
+
+exports.prom = prom;

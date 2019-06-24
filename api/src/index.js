@@ -10,12 +10,15 @@ const cors = require('micro-cors');
 const microOpenApi = require('micro-open-api');
 const morgan = require('micro-morgan');
 
+const { prom } = require('./services');
+
 const handler = _.compose(
   [
     compress,
     morgan('tiny', {
       skip: (req, res) => {
         if (req.method.toUpperCase() === 'OPTIONS') return true;
+        if (url.parse(req.url).pathname === 'metrics') return true;
 
         const parsed = url.parse(req.url);
         if (parsed.path === '/') return true;
@@ -54,6 +57,7 @@ components:
   ].filter(fn => fn)
 )((req, res) => {
   if (req.method === 'OPTIONS') return { ok: true };
+  if (url.parse(req.url).pathname == '/metrics') return prom.register.metrics();
 
   micro.send(res, 404, { ok: false, errors: { general: 'Not found' } });
 });
