@@ -5,7 +5,13 @@ global:
 scrape_configs:
   - job_name: prometheus
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['docker.for.mac.localhost:9090']
   - job_name: api
     static_configs:
       - targets: ['docker.for.mac.localhost:3001']
+  - job_name: web
+    params:
+      url:
+        - 'http://docker.for.mac.localhost:3000'
+    static_configs:
+      - targets: ['docker.for.mac.localhost:3002']

@@ -30,3 +30,8 @@ services:
       context: ./prometheus
     ports:
       - "9090:9090"
+
+  prometheus-assets:
+    image: tuckerconnelly/prometheus-assets
+    ports:
+      - "3002:3000"
