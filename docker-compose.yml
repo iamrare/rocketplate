@@ -17,7 +17,7 @@ services:
       RAMBLER_TABLE: migrations
 
   postgres:
-    image: postgres:11-alpine
+    image: postgres:9.6-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
@@ -35,3 +35,25 @@ services:
     image: tuckerconnelly/prometheus-assets
     ports:
       - "3002:3000"
+
+  postgres-grafana:
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: grafana
+    ports:
+      - "5433:5432"
+
+  grafana:
+    build:
+      context: ./grafana
+    ports:
+      - "3003:3000"
+    environment:
+      GF_DATABASE_URL: postgres://postgres:password@docker.for.mac.localhost:5433/grafana
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+    depends_on:
+      - postgres-grafana
+      - prometheus
