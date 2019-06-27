@@ -9,8 +9,5 @@ RUN apt-get update && apt-get install -y postgresql-client
 USER grafana
 
 COPY ./run-with-postgres.bash /run-with-postgres.bash
-COPY ./dev-provisioning/datasources/ /etc/grafana/provisioning/datasources/
-COPY ./dev-provisioning/dashboards/ /etc/grafana/provisioning/dashboards/
-COPY ./dashboards/ /var/lib/grafana/dashboards/
 
 ENTRYPOINT ["/run-with-postgres.bash"]

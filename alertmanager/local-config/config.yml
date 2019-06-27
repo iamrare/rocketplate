@@ -1,0 +1,17 @@
+# global:
+#   # Slack webhook url
+#   slack_api_url: <secret>
+
+# route:
+#   receiver: slack
+
+# receivers:
+#   # https://prometheus.io/docs/alerting/configuration/#slack_config
+#   - name: slack
+#     slack_configs:
+#       - channel: <tmpl_string>
+#         title: 500 on home page
+#         actions:
+#           - type: button
+#             text: Roll back to last deployment
+#             url: <tmpl_string>

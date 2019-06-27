@@ -1,0 +1,10 @@
+groups:
+  - name: postgres
+    rules:
+      - alert: PostgresDown
+        expr: pg_up == 0
+        for: 5m
+        labels:
+          severity: page
+        annotations:
+          summary: 'Postgres is down'
