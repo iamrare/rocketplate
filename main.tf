@@ -188,3 +188,10 @@ module "api" {
   PG_WRITE_URL = "postgres://${var.POSTGRES_USERNAME}:${var.POSTGRES_PASSWORD}@${module.postgres.instance_ip_address}:5432/${var.POSTGRES_DB_NAME}"
   PG_READ_URL = "postgres://${var.POSTGRES_USERNAME}:${var.POSTGRES_PASSWORD}@${module.postgres.instance_ip_address}:5432/${var.POSTGRES_DB_NAME}"
 }
+
+module "phppgadmin" {
+  source = "./phppgadmin"
+
+  POSTGRES_HOST = module.postgres.instance_ip_address
+  POSTGRES_DB_NAME = var.POSTGRES_DB_NAME
+}

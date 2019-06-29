@@ -119,6 +119,11 @@ resource "kubernetes_deployment" "web" {
             name = "PORT"
             value = 3000
           }
+
+          env {
+            name = "API_URL"
+            value = "https://boilerplate.technology/api/v1"
+          }
         }
       }
     }
