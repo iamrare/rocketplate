@@ -30,7 +30,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus/local-config:/etc/prometheus
+      - ./prometheus/dev-config:/etc/prometheus
 
   prometheus-assets:
     image: tuckerconnelly/prometheus-assets
@@ -47,15 +47,14 @@ services:
       DATA_SOURCE_NAME: postgres://postgres:password@postgres:5432/rocketplate?sslmode=disable
       PG_EXPORTER_EXTEND_QUERY_PATH: /etc/postgres_exporter/queries.yaml
     volumes:
-      - ./postgres_exporter:/etc/postgres_exporter
+      - ./postgres-exporter:/etc/postgres_exporter
 
   alertmanager:
     image: prom/alertmanager
-    command: -config-file=/etc/alertmanager/config.yml
     ports:
       - "9093:9093"
     volumes:
-      - ./alertmanager/local-config:/etc/alertmanager
+      - ./prometheus/dev-config:/etc/alertmanager/
 
   postgres-grafana:
     image: postgres:9.6-alpine
@@ -79,4 +78,12 @@ services:
       - postgres-grafana
       - prometheus
     volumes:
-      - ./grafana/local-provisioning:/etc/grafana/provisioning
+      - ./grafana/dev-provisioning:/etc/grafana/provisioning
+
+  phppgadmin:
+    image: dockage/phppgadmin
+    ports:
+      - "3004:80"
+    environment:
+      PHP_PG_ADMIN_SERVER_HOST: postgres
+      PHP_PG_ADMIN_SERVER_DEFAULT_DB: rocketplate
