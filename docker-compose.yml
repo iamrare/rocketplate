@@ -80,11 +80,9 @@ services:
     volumes:
       - ./grafana/dev-provisioning:/etc/grafana/provisioning
 
-  phppgadmin:
-    image: dockage/phppgadmin
+  pgweb:
+    image: sosedoff/pgweb
     ports:
-      - "3004:80"
+      - "8081:8081"
     environment:
-      PHP_PG_ADMIN_SERVER_DESC: rocketplate
-      PHP_PG_ADMIN_SERVER_HOST: postgres
-      PHP_PG_ADMIN_SERVER_DEFAULT_DB: rocketplate
+      PG_URL: postgres://postgres:password@postgres:5432/rocketplate

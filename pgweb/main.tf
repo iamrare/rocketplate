@@ -1,10 +1,9 @@
-variable "POSTGRES_HOST" { type = "string" }
-variable "POSTGRES_DB_NAME" { type = "string" }
+variable "PG_URL" { type = "string" }
 
 locals {
-  docker_image = "dockage/phppgadmin"
-  name = "phppgadmin"
-  port = 80
+  docker_image = "sosedoff/pgweb"
+  name = "pgweb"
+  port = 8081
 }
 
 resource "kubernetes_service" "main" {
@@ -95,18 +94,8 @@ resource "kubernetes_deployment" "main" {
           }
 
           env {
-            name = "PHP_PG_ADMIN_SERVER_DESC"
-            value = var.POSTGRES_DB_NAME
-          }
-
-          env {
-            name = "PHP_PG_ADMIN_SERVER_HOST"
-            value = var.POSTGRES_HOST
-          }
-
-          env {
-            name = "PHP_PG_ADMIN_SERVER_DEFAULT_DB"
-            value = var.POSTGRES_DB_NAME
+            name = "DATABASE_URL"
+            value = var.PG_URL
           }
         }
       }
