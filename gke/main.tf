@@ -2,6 +2,8 @@ variable "GOOGLE_PROJECT" { type = "string" }
 variable "GOOGLE_REGION" { type = "string" }
 variable "GOOGLE_ZONE" { type = "string" }
 variable "CLUSTER_NAME" { type = "string" }
+variable "GKE_HIGHMEM_MACHINE_TYPE" { type = "string" }
+variable "GKE_HIGHMEM_NODE_COUNT" { type = number }
 
 resource "google_container_cluster" "primary" {
   name = "${var.CLUSTER_NAME}"
@@ -42,15 +44,15 @@ resource "google_container_cluster" "primary" {
   }
 }
 
-resource "google_container_node_pool" "preemptible_nodes" {
-  cluster    = "${google_container_cluster.primary.name}"
-  location   = "${var.GOOGLE_ZONE}"
-  name       = "${var.CLUSTER_NAME}-node-pool"
-  node_count = 1
+resource "google_container_node_pool" "highmem" {
+  cluster    = google_container_cluster.primary.name
+  location   = var.GOOGLE_ZONE
+  name       = "${var.CLUSTER_NAME}-highmem-node-pool"
+  node_count = var.GKE_HIGHMEM_NODE_COUNT
 
   node_config {
     preemptible  = true
-    machine_type = "n1-standard-2"
+    machine_type = var.GKE_HIGHMEM_MACHINE_TYPE
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/devstorage.read_only",

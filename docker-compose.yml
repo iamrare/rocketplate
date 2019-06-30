@@ -85,4 +85,4 @@ services:
     ports:
       - "8081:8081"
     environment:
-      PG_URL: postgres://postgres:password@postgres:5432/rocketplate
+      DATABASE_URL: postgres://postgres:password@postgres:5432/rocketplate

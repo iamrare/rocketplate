@@ -9,6 +9,8 @@ variable "GOOGLE_PROJECT" { type = "string" }
 variable "GOOGLE_REGION" { type = "string" }
 variable "GOOGLE_ZONE" { type = "string" }
 variable "CLUSTER_NAME" { type = "string" }
+variable "GKE_HIGHMEM_MACHINE_TYPE" { type = "string" }
+variable "GKE_HIGHMEM_NODE_COUNT" { type = number }
 
 variable "STATIC_IP_NAME" { type = "string" }
 variable "DOMAIN_NAME" { type = "string" }
@@ -57,6 +59,8 @@ module "gke" {
   GOOGLE_REGION = var.GOOGLE_REGION
   GOOGLE_ZONE = var.GOOGLE_ZONE
   CLUSTER_NAME = var.CLUSTER_NAME
+  GKE_HIGHMEM_MACHINE_TYPE = var.GKE_HIGHMEM_MACHINE_TYPE
+  GKE_HIGHMEM_NODE_COUNT = var.GKE_HIGHMEM_NODE_COUNT
 }
 
 # Authenticate the k8s cluster the first time it's created.

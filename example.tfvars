@@ -1,6 +1,8 @@
 GOOGLE_PROJECT = "rocketplate-project"
 GOOGLE_REGION = "us-west2"
 GOOGLE_ZONE = "us-west2-b"
+GKE_HIGHMEM_MACHINE_TYPE = "n1-highmem-4"
+GKE_HIGHMEM_NODE_COUNT = 1
 
 STATIC_IP_NAME = "rocketplate"
 CLUSTER_NAME = "rocketplate"
