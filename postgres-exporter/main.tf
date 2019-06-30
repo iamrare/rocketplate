@@ -1,7 +1,19 @@
+variable "PG_URL" { type = "string" }
+
 locals {
-  docker_image = "tuckerconnelly/prometheus-assets"
-  name = "prometheus-assets"
-  port = 3000
+  docker_image = "wrouesnel/postgres_exporter"
+  name = "postgres-exporter"
+  port = 9187
+}
+
+resource "kubernetes_config_map" "main" {
+  metadata {
+    name = local.name
+  }
+
+  data = {
+    "queries.yaml" = "${file("${path.module}/queries.yaml")}"
+  }
 }
 
 resource "kubernetes_service" "main" {
@@ -71,8 +83,7 @@ resource "kubernetes_deployment" "main" {
 
           liveness_probe {
             http_get {
-              # NOTE Throws 400 if no url specified
-              path = "/metrics?url=http://web:3000"
+              path = "/metrics"
               port = local.port
               scheme = "HTTP"
             }
@@ -84,8 +95,7 @@ resource "kubernetes_deployment" "main" {
 
           readiness_probe {
             http_get {
-              # NOTE Throws 400 if no url specified
-              path = "/metrics?url=http://web:3000"
+              path = "/metrics"
               port = local.port
             }
             initial_delay_seconds = 30
@@ -94,8 +104,25 @@ resource "kubernetes_deployment" "main" {
           }
 
           env {
-            name = "ASSETS_METRIC_NAME"
-            value = "web"
+            name = "DATA_SOURCE_NAME"
+            value = var.PG_URL
+          }
+
+          env {
+            name = "PG_EXPORTER_EXTEND_QUERY_PATH"
+            value = "/etc/postgres_exporter/queries.yaml"
+          }
+
+          volume_mount {
+            name = "config-volume"
+            mount_path = "/etc/postgres_exporter"
+          }
+        }
+
+        volume {
+          name = "config-volume"
+          config_map {
+            name = local.name
           }
         }
       }

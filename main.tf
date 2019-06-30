@@ -23,6 +23,8 @@ variable "POSTGRES_MASTER_IP_ADDRESS_NAME" { type = "string" }
 variable "POSTGRES_DB_NAME" { type = "string" }
 variable "POSTGRES_USERNAME" { type = "string" }
 variable "POSTGRES_PASSWORD" { type = "string" }
+variable "ALERTS_SLACK_WEBHOOK_URL" { type = "string" }
+variable "ALERTS_SLACK_CHANNEL" { type = "string" }
 
 # ---
 
@@ -197,4 +199,27 @@ module "pgweb" {
   source = "./pgweb"
 
   PG_URL = "postgres://${var.POSTGRES_USERNAME}:${var.POSTGRES_PASSWORD}@${module.postgres.instance_ip_address}:5432/${var.POSTGRES_DB_NAME}"
+}
+
+module "postgres-exporter" {
+  source = "./postgres-exporter"
+
+  PG_URL = "postgres://${var.POSTGRES_USERNAME}:${var.POSTGRES_PASSWORD}@${module.postgres.instance_ip_address}:5432/${var.POSTGRES_DB_NAME}"
+}
+
+module "prometheus-assets" {
+  source = "./prometheus-assets"
+}
+
+module "prometheus" {
+  source = "./prometheus"
+
+  ALERTS_SLACK_WEBHOOK_URL = var.ALERTS_SLACK_WEBHOOK_URL
+  ALERTS_SLACK_CHANNEL = var.ALERTS_SLACK_CHANNEL
+
+  PG_EXPORTER_HOST = "postgres-exporter:9187"
+  API_EXPORTER_HOST = "api:3000"
+  PROMETHEUS_ASSETS_EXPORTER_HOST = "prometheus-assets:3000"
+  WEB_URL = "https://${var.DOMAIN_NAME}"
+  NGINX_INGRESS_EXPORTER_HOST = "nginx-ingress-controller-metrics:9913"
 }

@@ -62,6 +62,11 @@ resource "helm_release" "nginx_ingress" {
     name = "image.pullPolicy"
     value = "Always"
   }
+
+  set {
+    name = "controller.metrics.enabled"
+    value = true
+  }
 }
 
 resource "helm_release" "kube_lego" {
