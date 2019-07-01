@@ -55,7 +55,7 @@ You can get these by going to the Google Cloud UI > Network Services > Cloud DNS
 The `tfvars` files are `.gitignore`d, so, to persist them, you can use the `./tfvars.bash` tool:
 
 ```
-./tfvars.bash upload production
+STAGE=production TF_BUCKET=your-bucket-name ./tfvars.bash upload
 ```
 
 Which will upload `production.tfvars` for you to your terraform bucket.
@@ -63,7 +63,7 @@ Which will upload `production.tfvars` for you to your terraform bucket.
 To have your team download, they can run:
 
 ```
-./tfvars.bash download production
+STAGE=production TF_BUCKET=your-bucket-name ./tfvars.bash download
 ```
 
 The CI system, Google Cloud Build, can now also download your secrets and deploy for you.
@@ -92,8 +92,6 @@ To get builds happening automatically, head to the Google Cloud Build dashboard 
 The database in this project is [Postgres](https://www.postgresql.org/), and the migration system is [rambler](https://github.com/elwinar/rambler).
 
 Rambler has it's own folder, in `./rambler/`
-
-Unfortunately, we're waiting on [this PR](https://github.com/terraform-providers/terraform-provider-kubernetes/pull/411) to land to finish up the Google Cloud side of rambler.
 
 
 ## Development
