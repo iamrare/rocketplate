@@ -223,3 +223,7 @@ module "prometheus" {
   WEB_URL = "https://${var.DOMAIN_NAME}"
   NGINX_INGRESS_EXPORTER_HOST = "nginx-ingress-controller-metrics:9913"
 }
+
+module "grafana" {
+  source = "./grafana"
+}
