@@ -5,4 +5,19 @@ steps:
   args: ['build', '--tag=gcr.io/${PROJECT_ID}/rocketplate', '.']
 - name: 'gcr.io/${PROJECT_ID}/rocketplate'
   args: ['version']
-images: ['gcr.io/${PROJECT_ID}/rocketplate']
+- name: 'gcr.io/${PROJECT_ID}/rocketplate'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - 'docker version'
+- name: 'gcr.io/${PROJECT_ID}/rocketplate'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - 'ls -al /usr/local/bin'
+- name: 'gcr.io/${PROJECT_ID}/rocketplate'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - 'docker-compose version'
+images: ['gcr.io/${PROJECT_ID}/rocketplate:latest']

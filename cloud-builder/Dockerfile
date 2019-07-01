@@ -34,6 +34,7 @@ RUN apt-get -y update && \
     apt-get -y install docker-ce=5:18.09.6~3-0~ubuntu-xenial
 
 # Add docker-compose command, from: https://github.com/GoogleCloudPlatform/cloud-builders-community/blob/master/docker-compose/Dockerfile
+ARG version=1.24.0
 RUN \
    apt -y update && \
    apt -y install ca-certificates curl && \
