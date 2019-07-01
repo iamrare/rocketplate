@@ -25,6 +25,7 @@ variable "POSTGRES_USERNAME" { type = "string" }
 variable "POSTGRES_PASSWORD" { type = "string" }
 variable "ALERTS_SLACK_WEBHOOK_URL" { type = "string" }
 variable "ALERTS_SLACK_CHANNEL" { type = "string" }
+variable "LOGDNA_INGESTION_KEY" { type = "string" }
 
 # ---
 
@@ -153,6 +154,12 @@ module "ingress" {
   MANAGED_ZONE_NAME = var.MANAGED_ZONE_NAME
   LETS_ENCRYPT_EMAIL = var.LETS_ENCRYPT_EMAIL
   LETS_ENCRYPT_URL = var.LETS_ENCRYPT_URL
+}
+
+module "logdna" {
+  source = "./logdna"
+
+  LOGDNA_INGESTION_KEY = var.LOGDNA_INGESTION_KEY
 }
 
 module "web" {
