@@ -171,3 +171,9 @@ Try running [this command](https://github.com/terraform-providers/terraform-prov
 ## Todo
 
  - Move rambler deploy to terraform job resource when it lands: https://github.com/terraform-providers/terraform-provider-kubernetes/milestone/8
+
+---
+
+> Whatever you do, work at it with all your heart, as working for the Lord, not for human masters, since you know that you will receive an inheritance from the Lord as a reward.
+
+*Colossians 3:23*
