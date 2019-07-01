@@ -35,7 +35,7 @@ if [[ $1 == 'remote' ]]; then
 else
   # Run integration tests
   ## API
-  docker-compose run api-test
+  docker-compose --log-level=WARNING run api-test
   if [[ $? != '0' ]]; then
     echo "API tests failed"
     exit 1

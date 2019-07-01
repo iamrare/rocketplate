@@ -170,9 +170,4 @@ Try running [this command](https://github.com/terraform-providers/terraform-prov
 
 ## Todo
 
- - Configure size of preemptible and normal k8s clusters
- - Deploy migrations to kubernetes
- - Run integration tests in CI
- - Add Prometheus and Grafana
- - Make scripts less noisy (especially deploy)
- - Set up some kind of feature flag system
+ - Move rambler deploy to terraform job resource when it lands: https://github.com/terraform-providers/terraform-provider-kubernetes/milestone/8

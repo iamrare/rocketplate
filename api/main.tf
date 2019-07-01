@@ -35,7 +35,7 @@ resource "null_resource" "docker" {
   provisioner "local-exec" {
     working_dir = "./api"
     command = <<EOF
-      docker build -t ${local.docker_image} .;
+      docker build -q -t ${local.docker_image} .;
       docker push ${local.docker_image};
     EOF
   }
