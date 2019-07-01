@@ -26,7 +26,6 @@ gcloud container clusters get-credentials $CLUSTER_NAME --zone $CLUSTER_ZONE
 gcloud auth configure-docker
 
 if [[ $1 == 'remote' ]]; then
-
   [[ -f ./$STAGE.tfvars ]] && ./tfvars.bash upload
 
   gcloud builds submit \
@@ -34,6 +33,13 @@ if [[ $1 == 'remote' ]]; then
     --substitutions=_SHORT_HASH=`git rev-parse --verify --short HEAD`,_STAGE=$STAGE,_TF_BUCKET=$TF_BUCKET
 
 else
+  # Run integration tests
+  ## API
+  docker-compose run api-test
+  if [[ $? != '0' ]]; then
+    echo "API tests failed"
+    exit 1
+  fi;
 
   terraform init \
     --backend-config=bucket=$TF_BUCKET \

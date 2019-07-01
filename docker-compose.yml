@@ -1,5 +1,18 @@
 version: '3'
 services:
+  api-test:
+    build:
+      context: ./api
+    depends_on:
+      - api
+    command: npm test -- --passWithNoTests
+
+  api:
+    build:
+      context: ./api
+    depends_on:
+      - rambler
+
   rambler:
     build:
       context: ./rambler
@@ -56,26 +69,15 @@ services:
     volumes:
       - ./prometheus/dev-config:/etc/alertmanager/
 
-  postgres-grafana:
-    image: postgres:9.6-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: grafana
-    ports:
-      - "5433:5432"
-
   grafana:
     build:
       context: ./grafana
     ports:
       - "3003:3000"
     environment:
-      GF_DATABASE_URL: postgres://postgres:password@postgres-grafana:5432/grafana
       GF_AUTH_ANONYMOUS_ENABLED: "true"
       GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
     depends_on:
-      - postgres-grafana
       - prometheus
     volumes:
       - ./grafana/dev-provisioning:/etc/grafana/provisioning

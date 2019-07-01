@@ -33,6 +33,13 @@ RUN apt-get -y update && \
     apt-get -y update && \
     apt-get -y install docker-ce=5:18.09.6~3-0~ubuntu-xenial
 
+# Add docker-compose command, from: https://github.com/GoogleCloudPlatform/cloud-builders-community/blob/master/docker-compose/Dockerfile
+RUN \
+   apt -y update && \
+   apt -y install ca-certificates curl && \
+   curl -L "https://github.com/docker/compose/releases/download/$version/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+   chmod +x /usr/local/bin/docker-compose
+
 ENV PATH=/builder/terraform/:$PATH
 COPY entrypoint.bash /builder/entrypoint.bash
 ENTRYPOINT ["/builder/entrypoint.bash"]
