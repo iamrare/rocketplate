@@ -59,6 +59,10 @@ resource "kubernetes_deployment" "main" {
           image = "${local.docker_image}"
           image_pull_policy = "Always"
           resources {
+            requests {
+              cpu = "50m"
+              memory = "250Mi"
+            }
             limits {
               cpu = "100m"
               memory = "500Mi"

@@ -3,7 +3,8 @@ variable "GOOGLE_REGION" { type = "string" }
 variable "GOOGLE_ZONE" { type = "string" }
 variable "CLUSTER_NAME" { type = "string" }
 variable "GKE_HIGHMEM_MACHINE_TYPE" { type = "string" }
-variable "GKE_HIGHMEM_NODE_COUNT" { type = number }
+variable "GKE_HIGHMEM_AUTOSCALING_MIN_NODE_COUNT" { type = number }
+variable "GKE_HIGHMEM_AUTOSCALING_MAX_NODE_COUNT" { type = number }
 
 resource "google_container_cluster" "primary" {
   name = "${var.CLUSTER_NAME}"
@@ -48,7 +49,10 @@ resource "google_container_node_pool" "highmem" {
   cluster    = google_container_cluster.primary.name
   location   = var.GOOGLE_ZONE
   name       = "${var.CLUSTER_NAME}-highmem-node-pool"
-  node_count = var.GKE_HIGHMEM_NODE_COUNT
+  autoscaling {
+    min_node_count = var.GKE_HIGHMEM_AUTOSCALING_MIN_NODE_COUNT
+    max_node_count = var.GKE_HIGHMEM_AUTOSCALING_MAX_NODE_COUNT
+  }
 
   node_config {
     preemptible  = true
