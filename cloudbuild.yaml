@@ -10,3 +10,5 @@ steps:
 substitutions:
   _STAGE: production
   _TF_BUCKET: rocketplate-terraform
+
+timeout: 1800s

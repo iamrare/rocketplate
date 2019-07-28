@@ -2,6 +2,7 @@ variable "SHORT_HASH" { type = "string" }
 variable "DOCKER_PREFIX" { type = "string" }
 variable "PG_WRITE_URL" { type = "string" }
 variable "PG_READ_URL" { type = "string" }
+variable "ALERTS_SLACK_WEBHOOK_URL" { type = "string" }
 
 locals {
   docker_image = "${var.DOCKER_PREFIX}api:${var.SHORT_HASH}"
@@ -134,6 +135,11 @@ resource "kubernetes_deployment" "api" {
           env {
             name = "PG_READ_URL"
             value = var.PG_READ_URL
+          }
+
+          env {
+            name = "ALERTS_SLACK_WEBHOOK_URL"
+            value = var.ALERTS_SLACK_WEBHOOK_URL
           }
         }
       }

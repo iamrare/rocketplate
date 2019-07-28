@@ -2,6 +2,7 @@
 tmp
 .env
 .DS_Store
+.tern-port
 
 # terraform
 .terraform
