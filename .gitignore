@@ -3,6 +3,7 @@ tmp
 .env
 .DS_Store
 .tern-port
+build.zip
 
 # terraform
 .terraform

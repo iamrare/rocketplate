@@ -1,6 +1,13 @@
+const assert = require('assert');
+
 const axios = require('axios');
 
-module.exports.gcbSlack = async e => {
+module.exports.cloudBuildAlert = async e => {
+  assert(
+    process.env.ALERTS_SLACK_WEBHOOK_URL,
+    'ALERTS_SLACK_WEBHOOK_URL environment variable not set'
+  );
+
   const build = JSON.parse(new Buffer(e.data, 'base64').toString());
 
   // Skip if the current status is not in the status list.

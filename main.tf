@@ -56,6 +56,12 @@ provider "google-beta" {
   zone = "${var.GOOGLE_ZONE}"
 }
 
+module "cloud-build-alert" {
+  source = "./cloud-build-alert"
+
+  ALERTS_SLACK_WEBHOOK_URL = var.ALERTS_SLACK_WEBHOOK_URL
+}
+
 module "gke" {
   source = "./gke"
 
@@ -202,7 +208,6 @@ module "api" {
   DOCKER_PREFIX = var.DOCKER_PREFIX
   PG_WRITE_URL = "postgres://${var.POSTGRES_USERNAME}:${var.POSTGRES_PASSWORD}@${module.postgres.instance_ip_address}:5432/${var.POSTGRES_DB_NAME}"
   PG_READ_URL = "postgres://${var.POSTGRES_USERNAME}:${var.POSTGRES_PASSWORD}@${module.postgres.instance_ip_address}:5432/${var.POSTGRES_DB_NAME}"
-  ALERTS_SLACK_WEBHOOK_URL = var ALERTS_SLACK_WEBHOOK_URL
 }
 
 module "pgweb" {
