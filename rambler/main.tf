@@ -24,10 +24,6 @@ resource "null_resource" "docker" {
 }
 
 resource "kubernetes_job" "job" {
-  triggers = {
-    docker_image = "${null_resource.docker.id}"
-  }
-
   metadata {
     name = "rambler"
   }
@@ -45,16 +41,21 @@ resource "kubernetes_job" "job" {
         container {
           name = "rambler"
           image = local.docker_image
-          command = "./apply-all.bash"
-          resources = {
-            requests = {
+          command = ["./apply-all.bash"]
+          resources{
+            requests {
               cpu = "100m"
               memory = "100Mi"
             }
-            limits = {
+            limits {
               cpu = "200m"
               memory = "200Mi"
             }
+          }
+
+          env {
+            name = "SHORT_HASH"
+            value = var.SHORT_HASH
           }
 
           env {
