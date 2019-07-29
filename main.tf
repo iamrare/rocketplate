@@ -30,6 +30,10 @@ variable "LOGDNA_INGESTION_KEY" { type = "string" }
 
 # ---
 
+provider "archive" {
+  version = "~> 1.2"
+}
+
 provider "external" {
   version = "~> 1.1"
 }
