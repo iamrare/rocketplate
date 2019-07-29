@@ -7,7 +7,7 @@ data "archive_file" "archive_file" {
 }
 
 resource "google_storage_bucket" "bucket" {
-  name = "rocketplate-cloud-functions"
+  name = "acelerate-cloud-functions"
 }
 
 resource "google_storage_bucket_object" "archive" {
@@ -24,6 +24,7 @@ resource "google_cloudfunctions_function" "function" {
   available_memory_mb = 256
   source_archive_bucket = "${google_storage_bucket.bucket.name}"
   source_archive_object = "${google_storage_bucket_object.archive.name}"
+  entry_point = "cloudBuildAlert"
 
   environment_variables = {
     ALERTS_SLACK_WEBHOOK_URL = var.ALERTS_SLACK_WEBHOOK_URL

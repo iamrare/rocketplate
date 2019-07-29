@@ -20,22 +20,21 @@ module.exports.cloudBuildAlert = async e => {
   }
 
   // Send message to Slack.
-  axios.post(process.env.ALERTS_SLACK_WEBHOOK_URL, {
-    data: {
-      text: `Build \`${build.id}\``,
-      mrkdwn: true,
-      attachments: [
-        {
-          title: 'Build logs',
-          title_link: build.logUrl,
-          fields: [
-            {
-              title: 'Status',
-              value: build.status
-            }
-          ]
-        }
-      ]
-    }
+  await axios.post(process.env.ALERTS_SLACK_WEBHOOK_URL, {
+    text: `Build \`${build.id}\``,
+    mrkdwn: true,
+    attachments: [
+      {
+        title: 'Build logs',
+        title_link: build.logUrl,
+        fields: [
+          {
+            title: 'Status',
+            value: build.status
+          }
+        ]
+      }
+    ]
   });
 };
+
