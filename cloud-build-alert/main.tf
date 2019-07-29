@@ -26,13 +26,13 @@ resource "google_cloudfunctions_function" "function" {
   source_archive_object = "${google_storage_bucket_object.archive.name}"
 
   environment_variables = {
-    ALERTS_SLACK_WEBHOOK_URL = ALERTS_SLACK_WEBHOOK_URL
+    ALERTS_SLACK_WEBHOOK_URL = var.ALERTS_SLACK_WEBHOOK_URL
   }
 
   event_trigger {
     event_type = "providers/cloud.pubsub/eventTypes/topic.publish"
     resource = "cloud-builds"
-    failure_policy = {
+    failure_policy {
       retry = false
     }
   }
