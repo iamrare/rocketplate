@@ -97,7 +97,7 @@ resource "null_resource" "gke_credentials" {
 }
 
 provider "kubernetes" {
-  version = "~> 1.7"
+  version = "~> 1.8"
 
   host = "https://${module.gke.k8s_endpoint}"
   username = "${module.gke.k8s_username}"
