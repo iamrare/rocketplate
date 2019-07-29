@@ -7,7 +7,7 @@ data "archive_file" "archive_file" {
 }
 
 resource "google_storage_bucket" "bucket" {
-  name = "cloud-functions"
+  name = "rocketplate-cloud-functions"
 }
 
 resource "google_storage_bucket_object" "archive" {
