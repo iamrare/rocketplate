@@ -79,6 +79,16 @@ resource "kubernetes_job" "job" {
           }
 
           env {
+            name = "RAMBLER_HOST"
+            value = var.POSTGRES_HOST
+          }
+
+          env {
+            name = "RAMBLER_PORT"
+            value = "5432"
+          }
+
+          env {
             name = "RAMBLER_DATABASE"
             value = var.POSTGRES_DB_NAME
           }
