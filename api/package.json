@@ -70,9 +70,8 @@
     ],
     "forceExit": true,
     "setupFiles": [
-      "./test-setup.js"
-    ],
-    "globalSetup": "./test-global-setup.js"
+      "./test-axios-create.js"
+    ]
   },
   "husky": {
     "hooks": {

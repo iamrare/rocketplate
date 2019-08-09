@@ -1,4 +1,4 @@
-require('dotenv-safe').config();
+require('dotenv-safe').config({ allowEmptyValues: true });
 
 const path = require('path');
 const url = require('url');
@@ -62,4 +62,8 @@ components:
   micro.send(res, 404, { ok: false, errors: { general: 'Not found' } });
 });
 
-micro(handler).listen(process.env.PORT || 3001);
+const makeServer = () => micro(handler).listen(process.env.PORT || 3001);
+
+if (process.env.NODE_ENV !== 'test') makeServer();
+
+module.exports = makeServer;
