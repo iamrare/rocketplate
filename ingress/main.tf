@@ -108,6 +108,8 @@ resource "kubernetes_ingress" "ingress" {
 
       "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
       "nginx.ingress.kubernetes.io/rewrite-target" = "/"
+
+       "nginx.ingress.kubernetes.io/affinity" = "cookie"
     }
   }
 
