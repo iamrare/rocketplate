@@ -14,7 +14,7 @@
     "dotenv-safe": "^6.1.0",
     "elasticsearch": "^16.0.0",
     "fs-router": "^0.4.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "micro": "^9.3.4",
     "micro-compose": "0.0.3",
     "micro-compress": "^1.0.0",
