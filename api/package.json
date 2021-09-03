@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@sqorn/pg": "0.0.45",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bcrypt": "^3.0.6",
     "bluebird": "^3.5.5",
     "dotenv-safe": "^6.1.0",
